@@ -1,0 +1,49 @@
+#include <iostream>
+#include <opencv/opencv.hpp>
+#include <raspicam_cv.h>
+#include <chorno> 
+#include <ctime>
+using namespace cv;
+using namespace raspicam;
+
+
+
+Mat frame;
+
+void Setup (int argc, char **argv, RaspiCam_cv &Camera) // argc and argv are command line arguements. argv - is an array of cstring pointers and arc - specifies # of elements within.
+{
+  // Camera settings to capture images, this values can be adjusted depending on the enviorment used to test the car in.
+  // Camera(video) will automatically try to adjust exposure
+  // Can change the bitrate from the computer remote connection to reduce lag
+  Camera.set (CAP_PROP_FRAME_WIDTH, ("-w", argc, argv, 350)); 
+  Camera.set (CAP_PROP_FRAME_HEIGHT, ("-h", argc, argv, 240)); 
+  Camera.set (CAP_PROP_BRIGHTNESS, ("-br", argc, argv, 50));
+  Camera.set (CAP_PROP_SATURATION, ("-SA", argc, argv, 50));
+  Camera.set (CAP_PROP_GAIN, "-g", argc, argv, 50));
+  Camera.set (CAP_PROP_FPS, "-fps", argc, argv, 0); // FPS is set to 0 so it will be uncapped.
+}
+int main() {
+ Raspicam_cv Camera; // Calling a class and object to use
+ cout << "Connecting to camera" << endl;
+ if (!Camera.open()) // Will return 1 if connected to camera, if not, it will return 0
+ {
+   cout << "Failed to connect" << endl; // This message will print if failed to connect to camera
+   return -1 // -1 if failed to connect to camera.
+ }
+ cout << "Camera ID = " << camera.getId() << endl; // This will print the camera ID.
+ 
+while(1)
+{
+ auto start = std::chrono::system_clock::now(); // time will start
+ Camera.grab(); // function to capture image
+ Camera.retrieve(frame); //
+auto end = std::chrono::system_clock::now(); // end time
+std::chrono::duration<double> elapsed_seconds = end-start; // difference time between the start and end
+float time = elaspsed_seconds.count() // variable for time display
+int FPS = 1/t; // frames per second
+cout << "FPS = " << FPS << endl;
+ imshow("frame, frame") // loads the image
+ waitKey(1); // displays the image for a few seconds, will set to 0 so the window can be displayed until closed.
+}
+ return 0;
+}
